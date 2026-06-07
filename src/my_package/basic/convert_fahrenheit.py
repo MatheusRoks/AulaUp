@@ -1,20 +1,33 @@
 """
-O código funciona da seguinte forma:
-    um laço de repetição, dentro desse laço a principio um print informando o
-    que a função faz é executado. Ao infromar o valor ele tenta converter, caso
-    seja possivel o laço é interrompido. caso não, emite uma mensagem de erro e
-    inicia novamente o laço para um novo numero ser inserido
+--------------básico------------------
+recebe e já converte o valor do fahrenheit para float > executa a formula de conversão
+(x-32)/1.8 > print do resultado
+
+--------------simples-----------------
+laço de repetição -> limpa o terminal -> print do sistema explicando a função
+-> input de dados -> verificação do dado -> se valido, convertido, calculado
+printa o resultado e quebra o laço -> se inválido, printa mensagem de erro e
+pede para continuar
 """
+
 from my_package.clear import clear
+from my_package.verify_and_convert import convert_float, verify_float
+
+# basico
+bfahrenheit: float = float(input("Digite o valor em Fahrenheit a ser convertido: "))
+celsius: float = (bfahrenheit - 32) / 1.8
+print(f"{bfahrenheit} fahrenheit equivale a {celsius:.2f} em Celsius")
+
+# simples
 while True:
-    clear
+    clear()
     print("Vamos converter a temperatura de fahrenheit para Celsius.")
-    fahrenheit = input("digite uma temperatura em fahrenheit: ")
-    try:
-        fahrenheit:float = float(fahrenheit)
-        celsius:float = (fahrenheit-32)/1.8
-        print(f'{fahrenheit} fahrenheit equivale a {celsius:.2f} Celsius')
+    fahrenheit: str = input("digite uma temperatura em fahrenheit: ")
+    if verify_float(fahrenheit):
+        nums: list[float] = convert_float(fahrenheit)
+        celsius: float = (nums[0] - 32) / 1.8
+        print(f"{fahrenheit} fahrenheit equivale a {celsius:.2f} em Celsius")
         break
-    except:
+    else:
         print("Valor informado  não pode ser convertido")
         input("Aperte enter para continuar...")

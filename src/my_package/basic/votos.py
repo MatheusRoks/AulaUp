@@ -1,68 +1,62 @@
 """
-Exercício 15 — Sistema de Votação 
-Crie um algoritmo que receba: 
-quantidade de votos do candidato A;  
-quantidade de votos do candidato B;  
-quantidade de votos do candidato C;  
-quantidade de votos brancos;  
-quantidade de votos nulos.  
-O algoritmo deve apresentar: 
-total de votos;  
-porcentagem de votos de cada candidato;  
-porcentagem de votos brancos;  
-porcentagem de votos nulos;  
-quantidade de votos válidos.
+recebe os dados de votação -> valida os dados -> converte ->
+chama a classe -> realiza as operações -> exibe os resultados
 """
-from my_package.clear import clear
-class Calc_vot:
-    def __init__(self, vA:int, vB: int, vC: int, vBr:int, vN:int):
-        self.vA = vA
-        self.vB = vB
-        self.vC = vC
-        self.vBr = vBr
-        self.vN = vN
 
-    def sum_total(self):
-        soma = self.vA + self.vB + self.vC + self.vBr + self.vN 
+from my_package.clear import clear
+from my_package.verify_and_convert import convert_int, verify_int
+
+
+class CalcVot:
+    def __init__(self, va: int, vb: int, vc: int, vbr: int, vn: int) -> None:
+        self.vA = va
+        self.vB = vb
+        self.vC = vc
+        self.vBr = vbr
+        self.vN = vn
+
+    def sum_total(self) -> int:
+        soma: int = self.vA + self.vB + self.vC + self.vBr + self.vN
         return soma
 
-    def porcent(self):
-        total = self.sum_total()
-        votosA = total*(self.vA/100)
-        votosB = total*(self.vB/100)
-        votosC = total*(self.vC/100)
-        votosvBr = total*(self.vBr/100)
-        votosvN = total*(self.vN/100)
-        return [votosA, votosB, votosC, votosvBr, votosvN]
-    
-    def sum_valid(self):
-        somaV = self.vA + self.vB + self.vC 
-        return somaV
+    def porcent(self) -> list[float]:
+        total: int = self.sum_total()
+        votos_a: float = total * (self.vA / 100)
+        votos_b: float = total * (self.vB / 100)
+        votos_c: float = total * (self.vC / 100)
+        votos_vbr: float = total * (self.vBr / 100)
+        votos_vn: float = total * (self.vN / 100)
+        return [votos_a, votos_b, votos_c, votos_vbr, votos_vn]
+
+    def sum_valid(self) -> int:
+        soma_valid: int = self.vA + self.vB + self.vC
+        return soma_valid
 
 
 while True:
     clear()
     print("Informe os votos obtidos")
-    votosA = input("Digite os votos do candidato A : ")
-    votosB = input("Digite os votos do candidato B: ")
-    votosC = input("Digite os votos do candidato C: ")          
-    votosBr = input("Digite de votos brancos: ")          
-    votosN = input("Digite devotos votos nulos: ")          
-    try:
-        votosA, votosB, votosC, votosBr, votosN = int(votosA), int(votosB), int(votosC), int(votosBr), int(votosN)
-        _result = Calc_vot(votosA, votosB, votosC, votosBr, votosN)
+    votos_a = input("Digite os votos do candidato A : ")
+    votos_b = input("Digite os votos do candidato B: ")
+    votos_c = input("Digite os votos do candidato C: ")
+    votos_vbr = input("Digite de votos brancos: ")
+    votos_vn = input("Digite devotos votos nulos: ")
+    if verify_int(votos_a, votos_b, votos_c, votos_vbr, votos_vn):
+        nums: list[int] = convert_int(votos_a, votos_b, votos_c, votos_vbr, votos_vn)
+        _result = CalcVot(nums[0], nums[1], nums[2], nums[3], nums[4])
         clear()
         print(f"A quantidade de votos é {_result.sum_total()}")
         porcent = _result.porcent()
-        print(f'A quantidade de votos que o candidato A recebeu foi {porcent[0]:.2f}%\n'
-              f'A quantidade de votos que o candidato B recebeu foi {porcent[1]:.2f}%\n'
-              f'A quantidade de votos que o candidato C recebeu foi {porcent[2]:.2f}%\n'
-              f'A quantidade de votos branco recebeu foi {porcent[3]:.2f}%\n'
-              f'A quantidade de votos nulos foi {porcent[4]:.2f}%\n'              
-              )
-        sumV = _result.sum_valid()
-        print(f'A quantidade de votos válidos são {sumV}')
+        print(
+            f"A quantidade de votos que o candidato A recebeu foi {porcent[0]:.2f}%\n"
+            f"A quantidade de votos que o candidato B recebeu foi {porcent[1]:.2f}%\n"
+            f"A quantidade de votos que o candidato C recebeu foi {porcent[2]:.2f}%\n"
+            f"A quantidade de votos branco recebeu foi {porcent[3]:.2f}%\n"
+            f"A quantidade de votos nulos foi {porcent[4]:.2f}%\n"
+        )
+        sum_valid = _result.sum_valid()
+        print(f"A quantidade de votos válidos são {sum_valid}")
         break
-    except:
+    else:
         print("Os valores informados não são válidos")
         input("Pressione enter para nova tentativa")

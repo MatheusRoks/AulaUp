@@ -1,15 +1,15 @@
 """
-loop -> recebe os valores do usuário -> valida -> chama a função -> exibe 
+loop -> recebe os valores do usuário -> valida -> chama a função -> exibe
 resultado
 
 """
 
-
-
 from my_package.clear import clear
+from my_package.verify_and_convert import verify_float
 
-def quad_cal(num1:float, num2:float, num3:float):
-    _result = (num1+num2+num3)**2
+
+def quad_cal(num1: float, num2: float, num3: float) -> float:
+    _result: float = (num1 + num2 + num3) ** 2
     return _result
 
 
@@ -19,11 +19,14 @@ while True:
     number1 = input("Digite o primeiro número: ")
     number2 = input("Digite o segundo número: ")
     number3 = input("Digite o terceiro número: ")
-    try:
+    if verify_float(number1, number2, number3):
         number1, number2, number3 = float(number1), float(number2), float(number3)
         _result = quad_cal(number1, number2, number3)
-        print(f'O quadrado da soma dos valores: {number1}, {number2} e {number3} é {_result}')
+        print(
+            f"O quadrado da soma dos valores: {number1}, {number2} e {number3} é"
+            f" {_result}"
+        )
         break
-    except:
+    else:
         print("Os valores informados não são válidos")
         input("Pressione enter para nova tentativa")

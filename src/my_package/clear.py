@@ -1,4 +1,5 @@
 import os
 
-def clear():
-    os.system('cls' if os.name == 'nt' else 'clear')
+
+def clear() -> None:
+    os.system("cls" if os.name == "nt" else "clear")  # noqa: S605
