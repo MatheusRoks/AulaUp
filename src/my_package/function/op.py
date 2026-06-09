@@ -102,3 +102,12 @@ def fatorial()->(int|str|None):
     except ValueError:
         return resp
 
+def numprim()->(str):
+    num = input("Digite um número: ")
+    resp = "Valores inválido conta não pode ser executada."
+    notp = "Não é primo"
+    ep = "É primo"
+    try:
+        num2:int=int(num)
+        if num2<1 or num2%4==0 and num2%2==0:
+            return notp
