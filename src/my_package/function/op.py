@@ -109,5 +109,6 @@ def numprim()->(str):
     ep = "É primo"
     try:
         num2:int=int(num)
-        if num2<1 or num2%4==0 and num2%2==0:
-            return notp
+        if num2<2:
+            for i in range(2, math.sqrt(num2) 1):
+            
