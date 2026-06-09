@@ -1,4 +1,5 @@
 from my_package.verify_and_convert import convert_float
+import math
 
 def recebe()->(list[str]):
     num1:str = input("Digite o primeiro número: ")
@@ -66,8 +67,30 @@ def pot()->(float|str):
     except ValueError:
             return resp
     
+def raiz()->(str|float):
+    num:str = input("Digite o número para extrair a raiz: ")
+    resp = "Valores inválido conta não pode ser executada."
+    try:
+        num2:float= float(num)
+        if num2<=0:
+            return resp
+        return math.sqrt(num2)
+    except(ValueError, TypeError):
+        return resp
+    
+def raizcub()->(str|float):
+    num:str = input("Digite o número para extrair a raiz: ")
+    resp = "Valores inválido conta não pode ser executada."
+    try:
+        num2:float= float(num)
+        if num2<=0:
+            return resp
+        return math.cbrt(num2)
+    except(ValueError, TypeError):
+        return resp
+    
 def fatorial()->(int|str|None):
-    num = input("Digite o número que deseja o fatorial")
+    num = input("Digite o número que deseja o fatorial: ")
     resp = "Valores inválido conta não pode ser executada."
     resultado = 1
     try:
