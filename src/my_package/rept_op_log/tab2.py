@@ -1,12 +1,14 @@
 from my_package.clear import clear
 
 """recebe numero, laço, multiplicação do numero recebido exibiçãoo"""
+i = 0
 while True:
     clear()
     number = input("Digite um número INTEIRO: ")
     try:
         number = int(number)
-        for i in range(11):
+        while i <= 9:
+            i += 1
             y = number * i
             print(f"{number} x {i} = {y}")
         break

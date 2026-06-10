@@ -1,24 +1,24 @@
-from clear import clear
-
+from my_package.clear import clear
 
 while True:
     clear()
     print("Iremos realizar a média e a aprovação dos alunos.")
     med = 0
     for i in range(4):
+        i = 0
         a = input("Digite uma nota: ")
         try:
             a = float(a)
-            med +=a
-        except:
+            med += a
+        except (TypeError, ValueError):
             print("Valores informados inconsistentes, encerrando o programa")
             input("Aperte enter para continuar...")
-            break       
-    
-    media = med/4
+            break
 
-    if media>=7:
-        print(f'Média {media}, Aprovado')
+    media = med / 4
+
+    if media >= 7:
+        print(f"Média {media}, Aprovado")
         break
     else:
-        print(f'Média {media}, reprovado')
+        print(f"Média {media}, reprovado")
