@@ -29,7 +29,6 @@ def sub() -> float | str:
         resultado: float = new_numbers[0] - new_numbers[1]
         return resultado  # noqa: TRY300
     except ValueError:
-        print("Valores inválido conta não pode ser executada.")
         return resp
 
 
@@ -41,7 +40,6 @@ def mult() -> float | str:
         resultado: float = new_numbers[0] * new_numbers[1]
         return resultado  # noqa: TRY300
     except ValueError:
-        print("Valores inválido conta não pode ser executada.")
         return resp
 
 
@@ -49,11 +47,11 @@ def div() -> float | str:
     numeros = recebe()
     resp = "Valores inválido conta não pode ser executada."
 
-    if numeros[1] == "0":
-        print(resp)
     try:
         nums: list[float] = convert_float(*numeros)
-        resultado: float = nums[0] // nums[1]
+        if nums[1] == 0:
+            return resp
+        resultado: float = nums[0] / nums[1]
         return resultado  # noqa: TRY300
     except ValueError:
         return resp
@@ -63,10 +61,6 @@ def pot() -> float | str:
     nums = recebe()
     resp = "Valores inválido conta não pode ser executada."
 
-    if nums[0] == "0":
-        return 1
-    if nums[1] == "0":
-        return 0
     try:
         numbers: list[float] = convert_float(*nums)
         resultado: float = numbers[0] ** numbers[1]
@@ -80,9 +74,9 @@ def raiz() -> str | float:
     resp = "Valores inválido conta não pode ser executada."
     try:
         num2: float = float(num)
-        if num2 <= 0:
+        if num2 < 0:
             return resp
-        return math.sqrt(num2)
+        return f"{math.sqrt(num2):.2f}"
     except (ValueError, TypeError):
         return resp
 
@@ -92,19 +86,20 @@ def raizcub() -> str | float:
     resp = "Valores inválido conta não pode ser executada."
     try:
         num2: float = float(num)
-        if num2 <= 0:
-            return resp
-        return math.cbrt(num2)
+        return f"{math.cbrt(num2):.2f}"
     except (ValueError, TypeError):
         return resp
 
 
-def fatorial() -> int | str | None:
+def fatorial() -> int | str:
     num = input("Digite o número que deseja o fatorial: ")
     resp = "Valores inválido conta não pode ser executada."
     resultado = 1
+
     try:
         number: int = int(num)
+        if number < 0:
+            return "Não existe fatorial"
         while number >= 1:
             resultado = resultado * number
             number -= 1
@@ -132,6 +127,8 @@ def numprim() -> str:
 def decide(x: str, y: str, num: str, num2: str) -> str:
 
     if num.isdigit() and num2.isdigit():
+        if int(num2) == 0:
+            return "Divisão por 0"
         resultado: bool = int(num) % int(num2) == 0
         if resultado:
             return x
@@ -150,8 +147,8 @@ def ismult() -> str:
 def isdivisor() -> str:
     print("Insira dois números e vou verificar se o SEGUNDO é um divisor do PRIMEIRO")
     nums: list[str] = recebe()
-    divisor: str = f"{nums[0]} é um divisor de {nums[1]}"
-    nao_divisor: str = f"{nums[0]} não é um divisor de {nums[1]}"
+    divisor: str = f"{nums[1]} é um divisor de {nums[0]}"
+    nao_divisor: str = f"{nums[1]} não é um divisor de {nums[0]}"
     return decide(divisor, nao_divisor, nums[0], nums[1])
 
 
@@ -183,6 +180,8 @@ def mmc() -> str:
     if nums[0].isdigit() and nums[1].isdigit():
         num: int = int(nums[0])
         num2: int = int(nums[1])
+        if num == 0 and num2 == 0:
+            return "MMC indefinido para 0 e 0"
         resultado: int = (num * num2) // mdc_interno(num, num2)
         return f"O mmc de {num} e {num2} é {resultado}"
     return "Dados inválidos"
@@ -195,12 +194,14 @@ def media() -> str:
     while True:
         a = input("Digite uma nota ou = para ver o resultado: ")
         if a == "=":
+            if cont == 0:
+                return "Média 0.0"
             med = med / cont
-            return f"A média é {med}"
-        cont += 1
+            return f"A média é {med:.2f}"
         try:
             a = float(a)
             med += a
+            cont += 1
         except (ValueError, TypeError):
             return "Valores informados inconsistentes, encerrando o programa"
 
@@ -248,11 +249,13 @@ def bhask() -> str:
     try:
         a1, b1, c1 = float(a), float(b), float(c)
         raquis: float = b1**2 - 4 * a1 * c1
+        if a1 == 0:
+            return "a não pode ser zero"
         if raquis < 0:
             return "raiz negativa"
-        x1 = (-b1 + math.sqrt(raquis)) / 2 * a1
-        x2 = (-b1 - math.sqrt(raquis)) / 2 * a1
-        return f"As respostas são: x1={x1} e x2={x2}"  # noqa: TRY300
+        x1 = (-b1 + math.sqrt(raquis)) / (2 * a1)
+        x2 = (-b1 - math.sqrt(raquis)) / (2 * a1)
+        return f"As respostas são: x1={x1:.2f} e x2={x2:.2f}"  # noqa: TRY300
     except (ValueError, TypeError):
         return "Valores inconsistentes"
 
@@ -272,15 +275,17 @@ def pitagoras() -> str:  # noqa: C901
             ca: float = float(input("Digite o valor do 1 cateto: "))
             co: float = float(input("Digite o valor do 2 cateto: "))
             resultado: float = math.sqrt(ca**2 + co**2)
-            return f"O valor da hipotenusa é {resultado}"  # noqa: TRY300
+            return f"O valor da hipotenusa é {resultado:.2f}"  # noqa: TRY300
         except (ValueError, TypeError):
             return "Valores inválidos"
     elif option == "2":
         try:
             co: float = float(input("Digite o valor do cateto: "))
             h: float = float(input("Digite o valor da hipotenusa: "))
+            if h < co:
+                return "A hipotenusa deve ser maior ou igual ao cateto"
             resultado: float = math.sqrt(h**2 - co**2)
-            return f"O valor do cateto é {resultado}"  # noqa: TRY300
+            return f"O valor do cateto é {resultado:.2f}"  # noqa: TRY300
         except (ValueError, TypeError):
             return "Valores inválidos"
     elif option == "3":
@@ -297,7 +302,7 @@ def pitagoras() -> str:  # noqa: C901
                 case _:
                     return "Ângulo inválido"
             resultado: float = co / x
-            return f"O valor da hipotenusa é {resultado}"  # noqa: TRY300
+            return f"O valor da hipotenusa é {resultado:.2f}"  # noqa: TRY300
         except (ValueError, TypeError):
             return "Valores inválidos"
     elif option == "4":
@@ -314,7 +319,7 @@ def pitagoras() -> str:  # noqa: C901
                 case _:
                     return "Ângulo inválido"
             resultado: float = ca / x
-            return f"O valor da hipotenusa é {resultado}"  # noqa: TRY300
+            return f"O valor da hipotenusa é {resultado:.2f}"  # noqa: TRY300
         except (ValueError, TypeError):
             return "Valores inválidos"
     elif option == "5":
@@ -331,7 +336,7 @@ def pitagoras() -> str:  # noqa: C901
                 case _:
                     return "Ângulo inválido"
             resultado: float = ca * x
-            return f"O valor do cateto oposto é {resultado}"  # noqa: TRY300
+            return f"O valor do cateto oposto é {resultado:.2f}"  # noqa: TRY300
         except (ValueError, TypeError):
             return "Valores inválidos"
     return "Opção inválida"
