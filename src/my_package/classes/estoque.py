@@ -6,6 +6,7 @@ class Estoque:
         self.MSG_VALUE = "Valor não pode ser utilizado"
         self.MSG_EMPTY = "Estoque vazio"
         self.MSG_HAS = "O estoque já utiliza esse dado"
+        self.MSG_OUTRANGE = "Código fora do range"
 
     def _error_msg(self, msg:str)->None:
        print(msg)
@@ -22,14 +23,14 @@ class Estoque:
         except(TypeError, ValueError):
             return
        
-    def _verify_has(self,type:int, _object:str|int):
+    def _verify_has(self,index:int, _object:str|int):
         for i in self.estoque:
-            if i[type] == _object:
+            if i[index] == _object:
                 self._error_msg(self.MSG_HAS)
                 return True
             return False
        
-    def _verify_input(self, value:int|str|None, index:int)->bool:
+    def _verify_input(self, index:int, value:int|str|None)->bool:
         if not value:
             self._error_msg(self.MSG_VALUE)
             return False
@@ -39,10 +40,10 @@ class Estoque:
            
     def create(self)->None:
         _id = self._convert_int("Código")
-        if not self._verify_input(_id, 0):
+        if not self._verify_input(0, _id):
             return
         name: str = self._recive("Nome")
-        if not self._verify_input(name, 1):
+        if not self._verify_input(1, name):
             return
         amount= self._convert_int("Quantidade")
         self.estoque.append([_id, name, amount])
@@ -55,10 +56,12 @@ class Estoque:
         for i in self.estoque:
             if not code:
                 print(i)
-                return
             if i[0] == code:
                 print(i)
                 return i
+            if code>i[0]:
+                self._error_msg(self.MSG_OUTRANGE)
+        return
 
 
     def read_all(self)->None:
