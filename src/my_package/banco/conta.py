@@ -6,11 +6,11 @@ class Conta(ABC):
         self.agencia = agencia
         self.conta = conta
         self.saldo = saldo
-        
+
     @abstractmethod
     def sacar(self, valor:float)->bool:...
 
-    def depositar(self, valor:float)->float:
+    def depositar(self, valor:float)->float|None:
         if valor<=0:
             print(f"O valor não pode ser {valor}")
         self.saldo+=valor
@@ -42,6 +42,7 @@ class ContaCorrente(Conta):
     def __init__(self, agencia:int, conta:int, saldo:float = 0, limite:float =0):
         super().__init__(agencia, conta, saldo)
         self.limite = limite
+        self.limite_definido = limite
 
     def sacar(self, valor:float)->bool:
        new_saldo = self.saldo+self.limite
@@ -55,6 +56,17 @@ class ContaCorrente(Conta):
            return True
        else:
            return False
+       
+    def depositar(self, valor:float)->float|None:
+        super().depositar(valor)
+        if self.limite < self.limite_definido:
+            devido:float = self.limite - self.limite_definido
+            valor-=devido
+            if valor>0:
+                return self.saldo+valor
+            else:
+                print("Valor utilizado para cobrir o cheque especial")
+
        
     def to_dict(self) -> dict[str, int|str|float]:
         dict_conta = super().to_dict()
