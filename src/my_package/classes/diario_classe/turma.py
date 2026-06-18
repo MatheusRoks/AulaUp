@@ -5,61 +5,66 @@ class Turma:
     def __init__(self) -> None:
         self.lista_de_estudantes: dict[int, dict[str, str | list[float]]] = {}
         self.MSG_VALUE = "Valor não pode ser utilizado"
-        self.MSG_HAS = "Matricula já cadastrada"
-        self.MSG_DONTHAVE = "Matricula inexistente"
+        self.MSG_HAS = "Matrícula já cadastrada"
+        self.MSG_DONTHAVE = "Matrícula inexistente"
 
     def _error_msg(self, msg: str) -> None:
         print(msg)
 
     def _input_data(self, tipo: str) -> str:
-        data: str = input(f"Digite um valor para {tipo}: ")
-        return data
-
-    def _verify_int(self, valor: str) -> bool:
-        try:
-            int(valor)
-            return True
-        except ValueError:
-            return False
+        return input(f"Digite um valor para {tipo}: ")
 
     def _convert_int(self, tipo: str) -> int:
         while True:
-            item = self._input_data(tipo)
             try:
-                return int(item)
-            except ValueError:
-                self._error_msg(self.MSG_VALUE)
-    def _convert_float(self, tipo:str)->float:
-        while True:
-            item = self._input_data(tipo)
-            try:
-                return float(item)
+                return int(self._input_data(tipo))
             except ValueError:
                 self._error_msg(self.MSG_VALUE)
 
     def _verify_matricula(self, matricula: int) -> bool:
-        return bool(matricula in self.lista_de_estudantes)
+        return matricula in self.lista_de_estudantes
 
     def matricular(self) -> None:
-        matricula: int = self._convert_int("matricula")
+        matricula = self._convert_int("matrícula")
         if self._verify_matricula(matricula):
             self._error_msg(self.MSG_HAS)
             return
-        nome: str = self._input_data("nome")
+        nome = self._input_data("nome")
         aluno = Aluno(matricula, nome)
-        aluno_dict = aluno.to_dict()
-        self.lista_de_estudantes.update(aluno_dict)
+        self.lista_de_estudantes.update(aluno.to_dict())
+        print("Aluno matriculado com sucesso!")
 
-    def adc_notas(self) -> None:
-        matricula: int = self._convert_int("matricula")
+    def lancar_nota(self) -> None:
+        matricula = self._convert_int("matrícula")
         if not self._verify_matricula(matricula):
             self._error_msg(self.MSG_DONTHAVE)
             return
-        print("Para acabar de adicionar as notas, envie uma mensagem vazia")
-        cont = True
-        while cont:
-            option:str|None = self._input_data("notas")
-            if option is None:
-                cont=False
-                return
-            data = 
+        notas = self.lista_de_estudantes[matricula]["notas"]
+        if not isinstance(notas, list):
+            return
+        while True:
+            entrada = self._input_data("nota (ENTER vazio para finalizar)")
+            if entrada == "":
+                break
+            try:
+                notas.append(float(entrada))
+            except ValueError:
+                self._error_msg(self.MSG_VALUE)
+
+    def exibir_boletim(self) -> None:
+        if not self.lista_de_estudantes:
+            print("Nenhum aluno cadastrado.")
+            return
+        print("\n**** BOLETIM DA TURMA ****\n")
+        for matricula, dados in self.lista_de_estudantes.items():
+            nome = dados["nome"]
+            notas = dados["notas"]
+            if not isinstance(nome, str):
+                continue
+            if not isinstance(notas, list):
+                continue
+            media = sum(notas) / len(notas) if notas else 0.0
+            status = "Aprovado" if media >= 7.0 else "Reprovado"
+            print(
+                f"Matrícula: {matricula} | Nome: {nome} | Média: {media:.2f} | {status}"
+            )

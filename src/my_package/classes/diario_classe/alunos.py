@@ -1,18 +1,22 @@
 from dataclasses import dataclass, field
-from typing import cast
 
 
 @dataclass
 class Aluno:
     matricula: int
     nome: str
-    notas: list[float] = field(default_factory=lambda: cast("list[float]", []))
+    notas: list[float] = field(default_factory=lambda: [])
 
-    def __post_init__(self) -> None:
-        print(f"Aluno(a) {self.nome} criado(a)!")
+    def calcular_media(self) -> float:
+        if not self.notas:
+            return 0.0
+
+        return sum(self.notas) / len(self.notas)
 
     def to_dict(self) -> dict[int, dict[str, str | list[float]]]:
-        aluno: dict[int, dict[str, str | list[float]]] = {
-            self.matricula: {"Nome": self.nome, "Notas": self.notas}
+        return {
+            self.matricula: {
+                "nome": self.nome,
+                "notas": self.notas,
+            }
         }
-        return aluno
