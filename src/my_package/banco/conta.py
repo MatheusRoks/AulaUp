@@ -15,6 +15,7 @@ class Conta(ABC):
     def depositar(self, valor: float) -> float | None:
         if valor <= 0:
             print(f"O valor não pode ser {valor}")
+            return None
         self.saldo += valor
         return self.saldo
 
@@ -43,8 +44,7 @@ class ContaPoupanca(Conta):
         return False
 
     def pagar(self, valor: float) -> None:
-        valor += 2
-        self.sacar(valor)
+        self.sacar(valor + 2)
 
 
 class ContaCorrente(Conta):
@@ -59,8 +59,9 @@ class ContaCorrente(Conta):
         new_saldo = self.saldo + self.limite
         valor_pos_sac = self.saldo - valor
         if valor > self.saldo and valor <= new_saldo:
+            excedente: float = valor - self.saldo
             self.saldo = 0
-            self.limite -= valor - self.saldo
+            self.limite -= excedente
             return True
         if valor_pos_sac >= 0:
             self.saldo -= valor
@@ -69,14 +70,13 @@ class ContaCorrente(Conta):
         return False
 
     def pagar(self, valor: float) -> None:
-        valor += 2
-        self.sacar(valor)
+        self.sacar(valor + 2)
         return
 
     def depositar(self, valor: float) -> float | None:
         super().depositar(valor)
         if self.limite < self.limite_definido:
-            devido: float = self.limite - self.limite_definido
+            devido: float = self.limite_definido - self.limite
             valor -= devido
             if valor > 0:
                 return self.saldo + valor
