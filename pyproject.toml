@@ -10,18 +10,13 @@ requires-python = ">=3.13"
 dependencies = ["python-dotenv>=1.1.0"]
 
 [project.urls]
-Homepage = "https://www.otaviomiranda.com.br/"
-#projeto copiado de otavio miranda, link acima
+Homepage = "..."
 
 
 [project.optional-dependencies]
 dev = ["ruff", "pyright", "pytest", "pytest-xdist"]
 
 [project.scripts]
-# Define os comandos de console. A chave ('aulaup') é o comando.
-# O valor aponta para 'nome_do_pacote.nome_do_modulo:nome_da_funcao'.
-# Ex: 'my_package.main:run' -> src/my_package/main.py (e a função run lá dentro).
-# Lembre-se de sincronizar o nome do pacote com 'known-first-party' do Ruff.
 aulaup = "my_package.my_module:run_from_script"
 
 # ============================
@@ -83,8 +78,6 @@ indent-style = "space"
 line-ending = "lf"
 
 [tool.ruff.lint.isort]
-# Ensina ao Ruff qual é o pacote principal do seu projeto.
-# Deve ser o mesmo nome da pasta dentro de 'src/'.
 known-first-party = ["my_package"]
 
 
@@ -112,8 +105,6 @@ executionEnvironments = [{ root = "src" }]
 # ============================
 [tool.pytest.ini_options]
 addopts = "-s --color=yes --tb=short"
-# Adiciona 'src' ao path do Python durante os testes. Isso permite que
-# os testes em `tests/` importem os módulos de `src/` sem erros.
 pythonpath = ["src"]
 testpaths = ["tests"]
 
@@ -126,10 +117,7 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-# Informa ao setuptools para encontrar os pacotes dentro da pasta 'src'.
-# Essencial para a estrutura de layout com 'src/'.
 where = ["src"]
 
 [tool.setuptools]
-# Mapeia o diretório raiz de pacotes para 'src'.
 package-dir = { "" = "src" }

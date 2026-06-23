@@ -82,6 +82,10 @@ class ContaCorrente(Conta):
                 return self.saldo + valor
             print("Valor utilizado para cobrir o cheque especial")
         return None
+    
+    def transferir(self, valor:float, destino:Conta)->None:
+        self.sacar(valor+2)
+        destino.depositar(valor)
 
     def to_dict(self) -> dict[str, int | str | float]:
         dict_conta = super().to_dict()

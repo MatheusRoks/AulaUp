@@ -15,13 +15,12 @@ if __name__ == "__main__":
     cc1 = conta.ContaCorrente(123, 321, 320, 600)
     c1.conta = cc1
     c2 = person.Client("João", 19)
-    cp1 = conta.ContaPoupanca(123, 322, 320)
-    c2.conta = cp1
+    cc2 = conta.ContaCorrente(110, 320, 10, 200)
+    c2.conta = cc2
     print(c1)
     print(cc1)
-    print(cp1)
-    cc1.pagar(320)
-    cp1.pagar(318)
-    print(cc1)
     print(c2)
-    print(cp1)
+    print(cc2)
+    cc1.transferir(321, cc2)
+    print(cc1)
+    print(cc2)
