@@ -14,6 +14,7 @@ KM_L: int = 12
 vm_b: str = input("Digite a velocidade média(km/h): ")
 tg_b: str = input("Digite o tempo gasto em HORAS: ")
 resultado: float = (float(vm_b) / float(tg_b)) / KM_L
+
 print(
     f"Para um carro com a velocidade média de {vm_b}, num percurso que dura"
     f" {tg_b} hora a quantidade de litros gastos foi de {resultado}"

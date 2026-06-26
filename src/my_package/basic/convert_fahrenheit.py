@@ -23,6 +23,7 @@ while True:
     clear()
     print("Vamos converter a temperatura de fahrenheit para Celsius.")
     fahrenheit: str = input("digite uma temperatura em fahrenheit: ")
+    
     if verify_float(fahrenheit):
         nums: list[float] = convert_float(fahrenheit)
         celsius: float = (nums[0] - 32) / 1.8

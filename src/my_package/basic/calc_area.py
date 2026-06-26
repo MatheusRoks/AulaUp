@@ -29,11 +29,13 @@ while True:
     print("cálculo da cricunferencia do círculo")
     r: str = input("Informe o valor do raio: ")
     PI = 3.1415
+
     if verify_float(r):
         _r: float = convert_float(r)[0]
         area: float = PI * (_r**2)
         print(f"Para uma cirunferencia {_r} de raio, temos {area:.2f} de área")
         break
+    
     else:
         print("Os valores informados não são válidos")
         input("Pressione enter para nova tentativa")

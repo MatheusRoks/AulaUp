@@ -20,8 +20,10 @@ input("Pressione enter para continuar...")
 
 while True:
     clear()
+
     print("Vamos converter a temperatura de Celcius para Fahrenheit.")
     celsius: str = input("Digite o valor em Celcius a ser convertido: ")
+    
     if verify_float(celsius):
         nums = convert_float(celsius)
         fahrenheit: float = (nums[0] * 1.8) + 32

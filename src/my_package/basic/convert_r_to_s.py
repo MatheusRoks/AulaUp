@@ -15,7 +15,9 @@ def convert_r_to_s(dolar: float) -> float:
 
 while True:
     clear()
+
     a = input("Digite a quantidade de dólar que você deseja converter: ")
+    
     if verify_float(a):
         num = float(a)
         _result = convert_r_to_s(num)

@@ -2,7 +2,13 @@ from abc import ABC, abstractmethod
 
 
 class Conta(ABC):
-    def __init__(self, agencia: int, conta: int, saldo: float = 0) -> None:
+    def __init__(
+            self,
+            agencia: int, 
+            conta: int, 
+            saldo: float = 0
+        ) -> None:
+        
         self.agencia: int = agencia
         self.conta: int = conta
         self.saldo: float = saldo
@@ -12,10 +18,13 @@ class Conta(ABC):
 
     @abstractmethod
     def pagar(self, valor: float) -> None: ...
+
     def depositar(self, valor: float) -> float | None:
+
         if valor <= 0:
             print(f"O valor não pode ser {valor}")
             return None
+        
         self.saldo += valor
         return self.saldo
 
@@ -35,11 +44,14 @@ class Conta(ABC):
 
 
 class ContaPoupanca(Conta):
+
     def sacar(self, valor: float) -> bool:
         valor_pos_saque = self.saldo - valor
+
         if valor_pos_saque >= 0:
             self.saldo -= valor
             return True
+        
         print("Valor informado supera o saldo")
         return False
 
@@ -49,8 +61,13 @@ class ContaPoupanca(Conta):
 
 class ContaCorrente(Conta):
     def __init__(
-        self, agencia: int, conta: int, saldo: float = 0, limite: float = 0
+        self, 
+        agencia: int, 
+        conta: int, 
+        saldo: float = 0, 
+        limite: float = 0
     ) -> None:
+        
         super().__init__(agencia, conta, saldo)
         self.limite = limite
         self.limite_definido = limite
@@ -58,14 +75,17 @@ class ContaCorrente(Conta):
     def sacar(self, valor: float) -> bool:
         new_saldo = self.saldo + self.limite
         valor_pos_sac = self.saldo - valor
+
         if valor > self.saldo and valor <= new_saldo:
             excedente: float = valor - self.saldo
             self.saldo = 0
             self.limite -= excedente
             return True
+        
         if valor_pos_sac >= 0:
             self.saldo -= valor
             return True
+        
         print("Valor informado supera o saldo")
         return False
 
@@ -75,11 +95,14 @@ class ContaCorrente(Conta):
 
     def depositar(self, valor: float) -> float | None:
         super().depositar(valor)
+
         if self.limite < self.limite_definido:
             devido: float = self.limite_definido - self.limite
             valor -= devido
+
             if valor > 0:
                 return self.saldo + valor
+            
             print("Valor utilizado para cobrir o cheque especial")
         return None
     

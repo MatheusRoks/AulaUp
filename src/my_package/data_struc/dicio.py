@@ -23,6 +23,7 @@ class Agenda:
         if id_ not in self.agenda:
             self.dont_have()
             return None
+        
         return (
             f" Nome: {self.agenda[id_]['Nome']}\n Número: {self.agenda[id_]['Número']}"
         )
@@ -31,6 +32,7 @@ class Agenda:
         if id_ not in self.agenda:
             self.dont_have()
             return
+        
         self.agenda.pop(id_)
 
 
@@ -40,7 +42,11 @@ class Venda:
         self.vendedores: dict[str, float] = {}
 
     def adiciona_p(
-        self, id_: int, name: str, price: float, qnt: int
+        self, 
+        id_: int, 
+        name: str, 
+        price: float, 
+        qnt: int
     ) -> dict[int, dict[str, str | float | int]]:
         return {id_: {"Nome": name, "Valor": price, "Quantidade": qnt}}
 
@@ -65,9 +71,11 @@ class Venda:
         if vendedor not in self.vendedores:
             print("Vendedor não encontrado")
             return
+        
         if id_produto not in self.estoque:
             print("Produto não encontrado")
             return
+        
         product = self.estoque[id_produto]
         price: float = float(product["Valor"])
         total = price * quantidade
