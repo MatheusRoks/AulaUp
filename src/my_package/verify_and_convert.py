@@ -1,9 +1,7 @@
 def verify_float(*args: str) -> bool | None:
-
     for arg in args:
         try:
             float(arg)
-
         except (ValueError, TypeError):
             return False
     return True

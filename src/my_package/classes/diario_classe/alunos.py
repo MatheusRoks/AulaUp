@@ -10,7 +10,6 @@ class Aluno:
     def calcular_media(self) -> float:
         if not self.notas:
             return 0.0
-
         return sum(self.notas) / len(self.notas)
 
     def to_dict(self) -> dict[int, dict[str, str | list[float]]]:

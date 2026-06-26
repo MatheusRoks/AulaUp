@@ -2,7 +2,7 @@ import os
 
 # Instale o pacote: python-dotenv
 # Mostrei como no README.md
-from dotenv import load_dotenv
+from dotenv import load_dotenv# type: ignore
 
 # Essa função DEVE ser carregada antes do import dos módulos
 # que forem usar variáveis de ambiente
